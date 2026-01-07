@@ -5,82 +5,138 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import Sidebar from '../components/Sidebar.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import TagList from '../components/TagList.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Heading {
+	depth: number;
+	slug: string;
+	text: string;
+}
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+type Props = CollectionEntry<'blog'>['data'] & {
+	headings?: Heading[];
+};
+
+const { title, description, pubDate, updatedDate, heroImage, tags, headings = [] } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="ko">
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
+			body {
 				margin: 0;
+				padding: 0;
+			}
+			.layout-container {
+				display: flex;
+				min-height: 100vh;
+			}
+			.main-wrapper {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+			}
+			.mobile-header {
+				display: none;
+			}
+			main {
+				flex: 1;
+				width: 100%;
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 2rem;
 			}
 			.hero-image {
 				width: 100%;
+				margin-bottom: 2rem;
 			}
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
 				border-radius: 12px;
 				box-shadow: var(--box-shadow);
+				max-width: 100%;
 			}
 			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
+				max-width: 800px;
+				margin: 0 auto;
 				color: rgb(var(--gray-dark));
+				line-height: 1.7;
 			}
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
+				margin-bottom: 2em;
+				padding-bottom: 1em;
+				border-bottom: 1px solid rgb(var(--gray-light));
 			}
 			.title h1 {
-				margin: 0 0 0.5em 0;
+				margin: 0 0 1rem 0;
+				font-size: 2.5rem;
+				line-height: 1.2;
 			}
 			.date {
-				margin-bottom: 0.5em;
+				margin-bottom: 1rem;
 				color: rgb(var(--gray));
+				font-size: 0.95rem;
 			}
 			.last-updated-on {
 				font-style: italic;
+				margin-top: 0.5rem;
+			}
+
+			@media (max-width: 960px) {
+				.mobile-header {
+					display: block;
+				}
+				.layout-container {
+					flex-direction: column;
+				}
+				main {
+					padding: 1rem;
+				}
+				.title h1 {
+					font-size: 2rem;
+				}
 			}
 		</style>
 	</head>
 
 	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+		<div class="layout-container">
+			<Sidebar />
+			<div class="main-wrapper">
+				<div class="mobile-header">
+					<Header />
 				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+				<main>
+					<article>
+						<div class="hero-image">
+							{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
 						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
+						<div class="prose">
+							<div class="title">
+								<div class="date">
+									<FormattedDate date={pubDate} />
+									{
+										updatedDate && (
+											<div class="last-updated-on">
+												Last updated on <FormattedDate date={updatedDate} />
+											</div>
+										)
+									}
+								</div>
+								<h1>{title}</h1>
+								<TagList tags={tags} />
+							</div>
+							<TableOfContents headings={headings} />
+							<slot />
+						</div>
+					</article>
+				</main>
+				<Footer />
+			</div>
+		</div>
 	</body>
 </html>
