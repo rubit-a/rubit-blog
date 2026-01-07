@@ -1,62 +1,195 @@
-# Astro Starter Kit: Blog
+# Rubit's Blog
 
-```sh
-npm create astro@latest -- --template blog
+개발과 기술에 대한 생각을 기록하는 개인 블로그입니다.
+
+## ✨ 주요 기능
+
+- 🎨 **Ruby Red 테마** - 루비를 연상시키는 색상 테마
+- 📱 **반응형 디자인** - 모바일, 태블릿, 데스크톱 지원
+- 🗂️ **사이드바 네비게이션** - 항상 접근 가능한 메뉴
+- 🏷️ **태그 시스템** - 포스트 분류 및 필터링
+- 📝 **Markdown/MDX 지원** - 풍부한 콘텐츠 작성
+- 📚 **목차 자동 생성** - 긴 포스트 쉽게 탐색
+- 💬 **Giscus 댓글** - GitHub Discussions 기반 댓글 (선택)
+- ⚡ **빠른 성능** - Astro의 정적 사이트 생성
+- 🔍 **SEO 최적화** - 검색 엔진 친화적
+- 📡 **RSS 피드** - 구독 기능 제공
+
+## 🛠 기술 스택
+
+- **프레임워크**: [Astro](https://astro.build/) 5.x
+- **스타일링**: CSS (Custom Properties)
+- **콘텐츠**: Markdown/MDX
+- **호스팅**: [Cloudflare Pages](https://pages.cloudflare.com/) (권장)
+- **댓글**: [Giscus](https://giscus.app/) (선택)
+
+## 📁 프로젝트 구조
+
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
+rubit-blog/
+├── docs/                   # 운영 가이드 문서
+├── public/                 # 정적 파일 (favicon, robots.txt 등)
 ├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+│   ├── assets/            # 이미지 등 최적화되는 에셋
+│   ├── components/        # Astro 컴포넌트
+│   │   ├── Sidebar.astro          # 사이드바
+│   │   ├── TagCloud.astro         # 태그 클라우드
+│   │   ├── RecentPosts.astro      # 최근 포스트
+│   │   ├── TableOfContents.astro  # 목차
+│   │   └── TagList.astro          # 태그 목록
+│   ├── content/
+│   │   └── blog/          # 블로그 포스트 (Markdown/MDX)
+│   ├── layouts/
+│   │   ├── BaseLayout.astro       # 기본 레이아웃
+│   │   └── BlogPost.astro         # 포스트 레이아웃
+│   ├── pages/             # 페이지 라우트
+│   │   ├── index.astro            # 홈페이지
+│   │   ├── about.astro            # 소개 페이지
+│   │   └── blog/
+│   │       ├── index.astro        # 포스트 목록
+│   │       ├── [...slug].astro    # 개별 포스트
+│   │       └── tag/[tag].astro    # 태그별 포스트
+│   ├── styles/
+│   │   └── global.css     # 전역 스타일
+│   └── consts.ts          # 사이트 설정
+├── astro.config.mjs       # Astro 설정
+└── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🚀 빠른 시작
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### 1. 의존성 설치
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+```bash
+npm install
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+### 2. 개발 서버 실행
 
-## 🧞 Commands
+```bash
+npm run dev
+```
 
-All commands are run from the root of the project, from a terminal:
+브라우저에서 `http://localhost:4321`을 열어 확인하세요.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### 3. 프로덕션 빌드
 
-## 👀 Want to learn more?
+```bash
+npm run build
+```
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+빌드된 파일은 `dist/` 폴더에 생성됩니다.
 
-## Credit
+## 📝 사용 가능한 명령어
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+| 명령어 | 설명 |
+| :--- | :--- |
+| `npm install` | 의존성 설치 |
+| `npm run dev` | 개발 서버 시작 (`localhost:4321`) |
+| `npm run build` | 프로덕션 빌드 생성 (`./dist/`) |
+| `npm run preview` | 빌드 결과 미리보기 |
+| `npm run astro` | Astro CLI 명령어 실행 |
+
+## 📖 문서
+
+자세한 사용법은 `docs/` 폴더의 문서를 참고하세요:
+
+- [개발 환경 설정](./docs/01-getting-started.md)
+- [블로그 포스트 작성](./docs/02-writing-posts.md)
+- [Cloudflare Pages 배포](./docs/03-deployment.md)
+- [Giscus 댓글 설정](./docs/04-giscus-setup.md)
+- [블로그 커스터마이징](./docs/05-customization.md)
+
+## 🎨 커스터마이징
+
+### 사이트 정보 변경
+
+`src/consts.ts` 파일을 수정하세요:
+
+```typescript
+export const SITE_TITLE = "Your Blog Name";
+export const SITE_DESCRIPTION = "Your description";
+```
+
+### 색상 테마 변경
+
+`src/styles/global.css` 파일에서 색상을 변경할 수 있습니다:
+
+```css
+:root {
+  --accent: #C41E3A;        /* 메인 색상 */
+  --accent-dark: #8B0000;   /* 어두운 색상 */
+  --gray-light: 240, 230, 232;
+}
+```
+
+자세한 커스터마이징 방법은 [커스터마이징 가이드](./docs/05-customization.md)를 참고하세요.
+
+## 📝 포스트 작성
+
+### 새 포스트 만들기
+
+`src/content/blog/` 디렉토리에 새 마크다운 파일을 생성합니다:
+
+```bash
+touch src/content/blog/my-new-post.md
+```
+
+### Frontmatter 예시
+
+```markdown
+---
+title: '포스트 제목'
+description: '포스트 설명'
+pubDate: '2024-01-07'
+heroImage: '../../assets/image.jpg'
+tags: ['javascript', 'web-development']
+---
+
+포스트 내용을 작성합니다...
+```
+
+자세한 내용은 [포스트 작성 가이드](./docs/02-writing-posts.md)를 참고하세요.
+
+## 🌐 배포
+
+### Cloudflare Pages (권장)
+
+1. GitHub에 코드 푸시
+2. [Cloudflare Pages](https://pages.cloudflare.com/)에서 저장소 연결
+3. 빌드 설정:
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+4. 자동 배포 완료!
+
+자세한 배포 방법은 [배포 가이드](./docs/03-deployment.md)를 참고하세요.
+
+### 다른 호스팅 플랫폼
+
+- **Vercel**: 자동 감지 및 배포
+- **Netlify**: 자동 감지 및 배포
+- **GitHub Pages**: 추가 설정 필요
+
+## 💬 댓글 시스템 (선택)
+
+Giscus를 사용하여 GitHub Discussions 기반 댓글을 추가할 수 있습니다.
+
+자세한 설정 방법은 [Giscus 설정 가이드](./docs/04-giscus-setup.md)를 참고하세요.
+
+## 🤝 기여
+
+이슈 제보나 개선 제안은 언제든 환영합니다!
+
+## 📄 라이선스
+
+개인 블로그용으로 자유롭게 사용할 수 있습니다.
+
+## 🙏 크레딧
+
+- [Astro](https://astro.build/) - 정적 사이트 생성 프레임워크
+- [Bear Blog](https://github.com/HermanMartinus/bearblog/) - 테마 영감
+- [Giscus](https://giscus.app/) - 댓글 시스템
+
+---
+
+**Made with ❤️ and Astro**

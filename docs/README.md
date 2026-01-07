@@ -40,6 +40,12 @@ Rubit's Blog 운영 및 배포를 위한 종합 가이드입니다.
 - SEO 최적화
 - 성능 최적화
 
+### 6. [GitHub Actions 자동 배포](./06-github-actions.md)
+- Cloudflare API 토큰 생성
+- GitHub Secrets 설정
+- 자동 배포 워크플로우
+- 배포 테스트 및 문제 해결
+
 ## 🚀 빠른 시작
 
 ```bash
@@ -68,13 +74,28 @@ npm run dev
 
 ## 🌐 배포하기
 
+### 방법 1: GitHub Actions (권장)
+
 ```bash
-# 1. GitHub에 푸시
+# 1. GitHub Secrets 설정 (최초 1회)
+# - CLOUDFLARE_API_TOKEN
+# - CLOUDFLARE_ACCOUNT_ID
+# - CLOUDFLARE_PROJECT_NAME
+
+# 2. master 브랜치에 푸시
 git add .
 git commit -m "Add new post"
-git push
+git push origin master
 
-# 2. Cloudflare Pages가 자동 배포
+# 3. GitHub Actions가 자동으로 빌드 및 배포
+# (06-github-actions.md 참고)
+```
+
+### 방법 2: Cloudflare Pages 직접 연동
+
+```bash
+# Cloudflare Dashboard에서 저장소 연결
+# Push하면 자동 배포
 # (03-deployment.md 참고)
 ```
 
