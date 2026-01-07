@@ -141,6 +141,7 @@ jobs:
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }}
+          wranglerVersion: '3'
 ```
 
 ### 워크플로우 동작
@@ -150,6 +151,7 @@ jobs:
 3. 의존성 설치
 4. Astro 빌드 실행
 5. Cloudflare Pages에 배포
+   - Wrangler 3 사용 (프로젝트가 없으면 자동 생성)
 
 ## 6. 배포 테스트
 
@@ -207,11 +209,12 @@ git push origin master
 
 #### "Project not found" 오류
 
-**원인:** 프로젝트 이름이 잘못됨
+**원인:** 프로젝트가 아직 생성되지 않았거나 이름이 잘못됨
 
 **해결:**
-1. Cloudflare에서 실제 프로젝트 이름 확인
-2. `CLOUDFLARE_PROJECT_NAME` Secret 업데이트
+1. `wranglerVersion: '3'`이 설정되어 있는지 확인 (자동으로 프로젝트 생성)
+2. 또는 Cloudflare Dashboard에서 수동으로 프로젝트 생성
+3. 프로젝트 이름이 `CLOUDFLARE_PROJECT_NAME` Secret과 일치하는지 확인
 
 #### "Build failed" 오류
 
