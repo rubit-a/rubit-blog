@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+	{
+		title: 'Project 1',
+		description: '프로젝트 설명을 여기에 작성하세요.',
+		tech: ['React', 'Node.js', 'PostgreSQL'],
+		github: 'https://github.com/yourusername/project1',
+		demo: 'https://project1.demo.com',
+	},
+	{
+		title: 'Project 2',
+		description: '프로젝트 설명을 여기에 작성하세요.',
+		tech: ['Next.js', 'TypeScript', 'MongoDB'],
+		github: 'https://github.com/yourusername/project2',
+		demo: '',
+	},
+];
+---
+
+<BaseLayout title="Projects | Rubit Blog" description="풀스택 개발 프로젝트 모음">
+	<section class="projects">
+		<h1>Projects</h1>
+		<p class="intro">풀스택 개발 프로젝트와 사이드 프로젝트를 소개합니다.</p>
+
+		<div class="project-list">
+			{projects.map((project) => (
+				<article class="project-card">
+					<h2>{project.title}</h2>
+					<p class="description">{project.description}</p>
+
+					<div class="tech-stack">
+						{project.tech.map((tech) => (
+							<span class="tech-tag">{tech}</span>
+						))}
+					</div>
+
+					<div class="links">
+						{project.github && (
+							<a href={project.github} target="_blank" rel="noopener noreferrer">
+								GitHub
+							</a>
+						)}
+						{project.demo && (
+							<a href={project.demo} target="_blank" rel="noopener noreferrer" class="demo-link">
+								Live Demo
+							</a>
+						)}
+					</div>
+				</article>
+			))}
+		</div>
+
+		<div class="placeholder">
+			<p>더 많은 프로젝트가 추가될 예정입니다.</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.projects {
+		width: 720px;
+		max-width: calc(100% - 2em);
+		margin: 0 auto;
+		padding: 2em 1em;
+	}
+
+	.projects h1 {
+		margin-bottom: 0.5em;
+		font-size: 2.5em;
+	}
+
+	.intro {
+		margin-bottom: 2em;
+		color: #666;
+		font-size: 1.1em;
+	}
+
+	.project-list {
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+		margin-bottom: 3em;
+	}
+
+	.project-card {
+		padding: 1.5em;
+		border: 1px solid #e0e0e0;
+		border-radius: 8px;
+		background: white;
+		transition: box-shadow 0.3s ease;
+	}
+
+	.project-card:hover {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+
+	.project-card h2 {
+		margin: 0 0 0.5em 0;
+		font-size: 1.5em;
+		color: var(--accent);
+	}
+
+	.description {
+		margin-bottom: 1em;
+		line-height: 1.6;
+		color: #333;
+	}
+
+	.tech-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em;
+		margin-bottom: 1em;
+	}
+
+	.tech-tag {
+		padding: 0.25em 0.75em;
+		background: #f0f0f0;
+		border-radius: 4px;
+		font-size: 0.9em;
+		color: #555;
+	}
+
+	.links {
+		display: flex;
+		gap: 1em;
+	}
+
+	.links a {
+		padding: 0.5em 1em;
+		border: 1px solid var(--accent);
+		border-radius: 4px;
+		color: var(--accent);
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	.links a:hover {
+		background: var(--accent);
+		color: white;
+	}
+
+	.demo-link {
+		background: var(--accent);
+		color: white !important;
+	}
+
+	.demo-link:hover {
+		background: var(--accent-dark, #0056b3);
+	}
+
+	.placeholder {
+		text-align: center;
+		padding: 2em;
+		color: #999;
+		font-style: italic;
+	}
+
+	@media (max-width: 720px) {
+		.projects h1 {
+			font-size: 2em;
+		}
+
+		.project-card {
+			padding: 1em;
+		}
+
+		.links {
+			flex-direction: column;
+		}
+
+		.links a {
+			text-align: center;
+		}
+	}
+</style>
