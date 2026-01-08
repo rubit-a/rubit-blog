@@ -6,6 +6,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://rubit-blog.rubit8723.workers.dev',
+	site: 'https://rubit-blog.pages.dev',
 	integrations: [mdx(), sitemap()],
 });
