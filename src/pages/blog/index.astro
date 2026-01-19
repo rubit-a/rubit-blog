@@ -4,6 +4,9 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -24,6 +27,7 @@ const postsByCategory = allPosts.reduce((acc, post) => {
 const categoryNames: Record<string, string> = {
 	'spring': 'Spring',
 	'react': 'React',
+	'postgresql': 'PostgreSQL',
 	'기타': '기타'
 };
 ---
@@ -33,21 +37,26 @@ const categoryNames: Record<string, string> = {
 		{Object.entries(postsByCategory).map(([category, posts]) => (
 			<section class="category-section">
 				<h2 class="category-title">{categoryNames[category] || category}</h2>
-				<ul>
-					{posts.map((post) => (
-						<li>
-							<a href={`/blog/${post.id}/`}>
-								{post.data.heroImage && (
-									<Image width={400} height={200} src={post.data.heroImage} alt="" />
-								)}
-								<h4 class="title">{post.data.title}</h4>
-								<p class="date">
-									<FormattedDate date={post.data.pubDate} />
-								</p>
-							</a>
-						</li>
-					))}
-				</ul>
+				<div class="swiper" data-category={category}>
+					<div class="swiper-wrapper">
+						{posts.map((post) => (
+							<div class="swiper-slide">
+								<a href={`/blog/${post.id}/`}>
+									{post.data.heroImage && (
+										<Image width={400} height={200} src={post.data.heroImage} alt="" />
+									)}
+									<h4 class="title">{post.data.title}</h4>
+									<p class="date">
+										<FormattedDate date={post.data.pubDate} />
+									</p>
+								</a>
+							</div>
+						))}
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+					<div class="swiper-pagination"></div>
+				</div>
 			</section>
 		))}
 	</div>
@@ -73,29 +82,37 @@ const categoryNames: Record<string, string> = {
 		color: rgb(var(--black));
 	}
 
-	ul {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
-		list-style-type: none;
+	.swiper {
+		width: 100%;
+		height: auto;
 		margin: 0;
-		padding: 0;
+		padding: 2rem 0;
+		position: relative;
 	}
 
-	ul li * {
+	.swiper-wrapper {
+		display: flex;
+	}
+
+	.swiper-slide {
+		width: 320px;
+		height: auto;
+	}
+
+	.swiper-slide * {
 		text-decoration: none;
 		transition: 0.2s ease;
 	}
 
-	ul li img {
+	.swiper-slide img {
 		width: 100%;
-		height: auto;
+		height: 200px;
 		margin-bottom: 0.75rem;
 		border-radius: 8px;
 		object-fit: cover;
 	}
 
-	ul li a {
+	.swiper-slide a {
 		display: block;
 	}
 
@@ -112,20 +129,66 @@ const categoryNames: Record<string, string> = {
 		font-size: 0.9rem;
 	}
 
-	ul li a:hover h4,
-	ul li a:hover .date {
+	.swiper-slide a:hover h4,
+	.swiper-slide a:hover .date {
 		color: rgb(var(--accent));
 	}
 
-	ul li a:hover img {
+	.swiper-slide a:hover img {
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		transform: translateY(-2px);
 	}
 
+	.swiper-button-prev,
+	.swiper-button-next {
+		width: 50px;
+		height: 50px;
+		color: rgb(var(--accent));
+		background: rgba(255, 255, 255, 0.95);
+		border-radius: 50%;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+		transition: all 0.3s ease;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.swiper-button-prev:hover,
+	.swiper-button-next:hover {
+		background: rgba(255, 255, 255, 1);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+		transform: scale(1.1);
+	}
+
+	.swiper-button-prev::after,
+	.swiper-button-next::after {
+		font-size: 12px;
+		font-weight: bold;
+		position: static;
+		margin: 0;
+	}
+
+	.swiper-button-prev.swiper-button-disabled,
+	.swiper-button-next.swiper-button-disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+		background: rgba(255, 255, 255, 0.7);
+	}
+
+	.swiper-button-prev.swiper-button-disabled:hover,
+	.swiper-button-next.swiper-button-disabled:hover {
+		transform: none;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.swiper-pagination-bullet-active {
+		background: rgb(var(--accent));
+	}
+
 	@media (max-width: 960px) {
-		ul {
-			grid-template-columns: repeat(2, 1fr);
-			gap: 1rem;
+		.swiper-slide {
+			width: 280px;
 		}
 	}
 
@@ -143,9 +206,19 @@ const categoryNames: Record<string, string> = {
 			font-size: 1.5rem;
 		}
 
-		ul {
-			grid-template-columns: 1fr;
-			gap: 1.5rem;
+		.swiper-button-prev,
+		.swiper-button-next {
+			width: 40px;
+			height: 40px;
+		}
+
+		.swiper-button-prev::after,
+		.swiper-button-next::after {
+			font-size: 10px;
+		}
+
+		.swiper-slide {
+			width: 100%;
 		}
 
 		.title {
@@ -153,3 +226,39 @@ const categoryNames: Record<string, string> = {
 		}
 	}
 </style>
+
+<script>
+	import Swiper from 'swiper';
+	import { Navigation, Pagination } from 'swiper/modules';
+
+	// 모든 swiper 컨테이너 초기화
+	document.addEventListener('DOMContentLoaded', () => {
+		const swipers = document.querySelectorAll('.swiper');
+
+		swipers.forEach((swiperEl) => {
+			new Swiper(swiperEl as HTMLElement, {
+				modules: [Navigation, Pagination],
+				slidesPerView: 1,
+				spaceBetween: 20,
+				navigation: {
+					nextEl: swiperEl.querySelector('.swiper-button-next') as HTMLElement,
+					prevEl: swiperEl.querySelector('.swiper-button-prev') as HTMLElement,
+				},
+				pagination: {
+					el: swiperEl.querySelector('.swiper-pagination') as HTMLElement,
+					clickable: true,
+				},
+				breakpoints: {
+					640: {
+						slidesPerView: 2,
+						spaceBetween: 20,
+					},
+					960: {
+						slidesPerView: 3,
+						spaceBetween: 30,
+					},
+				},
+			});
+		});
+	});
+</script>
