@@ -13,12 +13,12 @@ JPA `@Query`에서 `null` 파라미터가 `bytea`로 추론되어 `lower` 호출
 
 JPA `@Query`에서 파라미터가 `null`일 때 아래 오류가 발생했다.
 
-<br />
-
 ```
 ERROR: function lower(bytea) does not exist
 Hint: No function matches the given name and argument types. You might need to add explicit type casts.
 ```
+
+<br />
 
 ### 원인
 
@@ -31,8 +31,6 @@ PostgreSQL은 `null` 파라미터의 타입을 추론해야 하는데, Hibernate
 
 아래 쿼리는 `:name` 또는 `:email`이 `null`일 때 `bytea` 추론 문제가 발생할 수 있다.
 
-<br />
-
 ```java
 @Query("""
         select c from CompanyEntity c
@@ -41,11 +39,11 @@ PostgreSQL은 `null` 파라미터의 타입을 추론해야 하는데, Hibernate
         """)
 ```
 
+<br />
+
 ### 해결
 
 `coalesce`로 파라미터가 항상 문자열로 해석되도록 고정한다.
-
-<br />
 
 ```java
 @Query("""
