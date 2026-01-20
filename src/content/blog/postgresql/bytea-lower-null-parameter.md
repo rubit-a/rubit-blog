@@ -2,7 +2,7 @@
 title: "bytea lower 오류 (null 파라미터)"
 description: "null 파라미터가 bytea로 추론되면서 발생하는 lower 오류 해결"
 pubDate: "Jan 19 2026"
-heroImage: "../../../assets/blog-placeholder-2.jpg"
+heroImage: "../../../assets/postgresql-logo.png"
 ---
 
 JPA `@Query`에서 `null` 파라미터가 `bytea`로 추론되어 `lower` 호출이 실패하는 문제와 해결 방법을 정리했다.
